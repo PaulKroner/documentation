@@ -26,3 +26,60 @@
 
 }
 
+/* class */
+.color {
+    color: blue; /* Schriftfarbe */
+    background-color: blue; /* Background-color */
+    
+    cursor: pointer;
+    
+    transform: scale(0.9);
+    
+    font-family: "Quicksand", sans-serif;
+    box-shadow: 10px 12px 27px -5px #000000;
+    overflow: hidden;
+    float: left;
+    outline: none;
+}
+.class {
+    width: 100%;
+    height: 50px;
+    margin: 10px; /* Abstand des Elements zu anderen Elementen */
+    padding: 0; /* Abstand innerhalb eines Elementens ,z.B. von Text zu seinem Rand */
+}
+.border {
+    border: #00745d; /* Rand mit Farbe */
+    border-radius: 10px; /* Krümmung des Rands -> je mehr desto runder */
+}
+.text {
+    color: var(--text-color); /* Schriftfarbe */
+    font-size: 35px; /* Schriftgröße */
+    font-weight: 1000; /* Schritdicke */
+}
+
+/* flex */
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px; /* Spalt/Platz zwischn den Elementen */
+    flex-wrap: nowrap; /* bündeln von Elementen, wenn Bild kleiner als width */
+    text-align: center;
+}
+
+/* footer Beispiel */
+.footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: right;
+}
+/* pseudo-klasse, für das Hovern */
+.button:hover{
+    background-color: var(--hover-color);
+}
+
