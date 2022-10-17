@@ -22,4 +22,31 @@
     
         <!-- einbinden JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- einbinden der JS-Datei WICHTIG: defer -->
+    <script src="index.js" defer></script>
+
   </head>
+
+  <body>
+    <div></div>
+    <p></p>
+    <button></button>
+    <input type="text">
+    <select name="" id=""></select>
+
+    <select name="" id="" size="1" class="operator"> <!-- size = gibt Anzahl der sichtbaren Optione an -->
+        <option disabled selected value> -- Wählen Sie einen Operator aus -- </option> <!-- default Select-options, kann nicht ausgewählt werden -->
+        <option><</option> <!-- vordefinierte Select-options -->
+        <option>></option>
+        <option>=</option>
+    </select>
+
+    <select data-attribute="1"></select> <!-- Data-Attribut, um es mit JS anzusprechen/auszulesen -->
+    <select onchange="func()"></select> <!-- bei Veränderung wird funktion func() ausgeführt -->
+
+    <button onclick="func1(); func2();"></button> <!-- onclick mit 2 Funktionen -->
+    
+    <script src="index.js"></script> <!-- bindet JS-Datei ein -->
+    <!-- geht auch im head mit <script src="index.js" defer></script> -->
+  </body>
