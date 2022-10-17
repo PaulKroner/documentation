@@ -30,27 +30,26 @@
 .color {
     color: blue; /* Schriftfarbe */
     background-color: blue; /* Background-color */
-    
-    cursor: pointer;
-    
-    transform: scale(0.9);
-    
     font-family: "Quicksand", sans-serif;
-    box-shadow: 10px 12px 27px -5px #000000;
-    overflow: hidden;
-    float: left;
-    outline: none;
 }
+
 .class {
     width: 100%;
     height: 50px;
     margin: 10px; /* Abstand des Elements zu anderen Elementen */
     padding: 0; /* Abstand innerhalb eines Elementens ,z.B. von Text zu seinem Rand */
+    cursor: pointer; /* Mauszeiger mit Klick, beim draufhalten */
+    box-shadow: 10px 12px 27px -5px #000000;
+    overflow: hidden;
+    float: left;
+    outline: none; /* Linie, außen um die Border */
 }
+
 .border {
     border: #00745d; /* Rand mit Farbe */
     border-radius: 10px; /* Krümmung des Rands -> je mehr desto runder */
 }
+
 .text {
     color: var(--text-color); /* Schriftfarbe */
     font-size: 35px; /* Schriftgröße */
@@ -78,8 +77,13 @@
     width: 100%;
     text-align: right;
 }
+
 /* pseudo-klasse, für das Hovern */
 .button:hover{
     background-color: var(--hover-color);
+}
+
+.special {
+    transform: scale(0.9);
 }
 
