@@ -1,0 +1,107 @@
+// HTML
+
+<div class="boxfield" id="SelectedDisplay">
+    <p class="statementInfofeld">Hier wird das Selektierte angezeigt.</p>
+    <div id="selectedFromDB" class="fieldSelected"></div>
+
+    <div class="sortierung">
+        <div>
+            <p>Sortieren nach:</p>
+        </div>
+        <div class="sortierung-select">
+            <select name="order-by" id="order-by" onchange="selectChoice()">
+                <option>Select Table First</option>
+            </select>
+        </div>
+    </div>
+</div>
+
+
+// PHP
+
+<?php
+
+    //Verbindung zur DB einbinden
+    include_once "dbLink.php";
+   
+    // Variablen werden überprüft gegen Injection
+    $table = mysqli_real_escape_string($link, $_POST["table"]);
+    $orderby = mysqli_real_escape_string($link, $_POST["order-by"]);
+
+    if ($table !== "") {
+        $sql = "SELECT $fieldone FROM $table";
+        $result = mysqli_query($link, $sql);
+    } else {
+        //Abbruchkriterium
+        $result = "";
+    }
+
+    // Sortierfunktion
+    
+    if ($orderby !== "") {
+        $sql .= " ORDER BY $orderby ASC";
+        $result = mysqli_query($link, $sql); 
+    }
+    //Result darf nicht leer sein und es darf kein "drop" und "delete" vorkommen
+    // obsolet, da nur das aus den Feldern gewählte abgeschickt wird
+    // || ist hier eigentlich falsch
+    if ($result !== "" ||  str_contains($result, 'drop') == false || str_contains($result, 'delete') == false) {
+        echo "<br>";
+        // echo $table;
+        echo("<table style='padding: 20px; text-align: left; overflow-x: scroll;'>");
+        $first_row = true;
+        while ($row = mysqli_fetch_assoc($result)) {
+            if ($first_row) {
+                $first_row = false;
+                // Output header row from keys.
+                echo '<tr>';
+                foreach($row as $key => $field) {
+                    echo '<th>' . htmlspecialchars($key) . '</th>';
+                }
+                echo '</tr>';
+            }
+            echo '<tr>';
+            foreach($row as $key => $field) {
+                echo '<td style="width: 200px">' . htmlspecialchars($field) . '</td>';
+            }
+            echo '</tr>';
+        }
+        echo("</table>");
+    } else {
+        echo("Keine Auswahl getroffen.");
+    }
+?>
+
+
+// CSS
+
+.fieldSelected {
+    margin-top: 10px;
+    width: 400px;
+    height: 500px;
+    background-color: var(--object-color);
+    border-style: solid;
+    border-color: #cccccc;
+    color: var(--schrift-color);
+    overflow-x: scroll;
+    overflow-y: scroll;
+}
+tr:nth-child(even) {background-color: #DDD;}
+.selecttable {
+    border: 1;
+    padding: 2px;
+}
+
+.sortierung {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--object-color);
+    color: var(--schrift-color);
+    max-width: 540px;
+    height: 80px;
+    margin-top: 25px;
+}
+.sortierung .sortierung-select{
+    width: 200px;
+    margin-left: 10px;
+}

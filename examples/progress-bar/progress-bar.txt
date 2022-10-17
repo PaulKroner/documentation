@@ -1,0 +1,95 @@
+// HTML
+
+<div class="progress">
+    <div id="progressbar" class="progressbar"></div>
+</div>
+
+
+// JS, hier mit Tab-buttons als Fortschrittstrigger
+
+// Fortschrittsbalken
+var tablinks = document.getElementsByClassName("tablinks");
+for (var i = 0; i < tablinks.length; i++) {
+    tablinks[i].addEventListener('click', progressbar, false);
+}
+function progressbar() {
+    let progressBar = document.getElementById("progressbar");
+    let statementTyp = better_get("StatementAuswahl");
+
+    // mit 0 initialiseren bei Start
+    // auf 0 zurücksetzen, wenn man Statementtyp wechselt
+    progressBar.innerHTML = "";
+    progressBar.style.width = "0%";
+    progressBar.style.backgroundColor = "green";
+    if (statementTyp == "SELECT") {
+        if (Zieltabelle.style.display == "flex") {
+            progressBar.innerHTML = "33%";
+            progressBar.style.width = "33%";
+        }
+        else if (bedingungenSelect.style.display == "flex") {
+            progressBar.innerHTML = "66%";
+            progressBar.style.width = "66%";
+        }
+        else if (fertigesStatement.style.display == "flex") {
+            progressBar.innerHTML = "100%";
+            progressBar.style.width = "100%";
+        }
+    }
+    else if (statementTyp === "UPDATE") {
+        if (Zieltabelle.style.display == "flex") {
+            progressBar.innerHTML = "33%";
+            progressBar.style.width = "33%";
+        }
+        else if (bedingungenSelect.style.display == "flex") {
+            progressBar.innerHTML = "66%";
+            progressBar.style.width = "66%";
+        }
+        else if (fertigesStatement.style.display == "flex") {
+            progressBar.innerHTML = "100%";
+            progressBar.style.width = "100%";
+        }
+    }
+    else if (statementTyp === "INSERT") {
+        if (insertvalues.style.display == "flex") {
+            progressBar.innerHTML = "50%";
+            progressBar.style.width = "50%";
+        }
+        else if (fertigesStatement.style.display == "flex") {
+            progressBar.innerHTML = "100%";
+            progressBar.style.width = "100%";
+        }
+    }
+}
+
+
+// CSS
+
+/* Fortschrittsbalken */
+.progress {
+    width:100%;
+    position:relative;
+    background-color:#f1f1f1;
+    width: 300px;
+    height: 30px;
+    border-style: solid;
+    border-color: #cccccc;
+    border-radius: 5px;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.progressbar {
+    background-color:#009879;
+    height:100%;
+    position:absolute;
+    line-height:inherit;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    border-radius: 3px;
+}
+
+.round-xlarge {
+    border-radius:4px;
+}
+

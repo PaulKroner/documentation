@@ -1,0 +1,172 @@
+// HTML
+
+<!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    
+<div class="light-dark">
+      <div class="mode">
+          <div class="sun-moon">
+              <i class='bx bx-moon icon moon'></i> //Boxicons
+              <i class='bx bx-sun icon sun'></i>
+          </div>
+          <span class="mode-text text">Dark mode</span>
+  
+          <div class="toggle-switch">
+              <span class="switch"></span>
+          </div>
+      </div>
+    </div>
+
+// CSS
+
+:root{
+    /* ===== Farben und deren Variablen ===== */
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #009879;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #707070;
+    --überschrift-color: #3a3b3c;
+    --button-schrift-color: #F6F5FF;
+    --border-color: #00745d;
+    --hover-color: #015847;
+}
+
+body.dark{
+    --body-color: #18191a;
+    --sidebar-color: #242526;
+    --primary-color: #009879;
+    --primary-color-light: #3a3b3c;
+    --toggle-color: #fff;
+    --text-color: #ccc;
+    --überschrift-color: #F6F5FF;
+    --button-schrift-color: #F6F5FF;
+    --border-color: #00745d;
+    --hover-color: #015847;
+}
+
+/* Light-Dark-Mode */
+.light-dark {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 240px;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.light-dark .icon{
+    min-width: 60px;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+}
+
+.light-dark .text,
+.light-dark .icon{
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
+.light-dark .text{
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+    text-align: center;
+    margin-top: 12px;
+}
+.light-dark .mode{
+    border-radius: 6px;
+    background-color: var(--primary-color-light);
+    position: relative;
+    transition: var(--tran-05);
+    height: 50px;
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-items: space-between;
+    margin-top: 15px;
+    margin-left: 5px;
+}
+.mode .sun-moon{
+    height: 50px;
+    width: 60px;
+}
+/* Sonnen- bzw. Mondsymbol wird versteckt oder angezeigt, je nach Modus */
+.mode .sun-moon i{
+    position: absolute;
+}
+.mode .sun-moon i.sun{
+    opacity: 0;
+}
+body.dark .mode .sun-moon i.sun{
+    opacity: 1;
+}
+body.dark .mode .sun-moon i.moon{
+    opacity: 0;
+}
+/* Switch-Kasten*/
+.light-dark .toggle-switch{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+/* Switch-Symbol*/
+.toggle-switch .switch{
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toggle-color);
+    transition: var(--tran-05);
+}
+/* Punkt im Switch*/
+.switch::before{
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--sidebar-color);
+    transition: var(--tran-04);
+}
+/* Punkt im Darkmode*/
+body.dark .switch::before{
+    left: 20px;
+}
+
+// JS
+//Darkmode-funktionen
+const body = document.querySelector('body'),
+      sidebar = body.querySelector('nav'),
+      toggle = body.querySelector(".toggle"),
+      searchBtn = body.querySelector(".search-box"),
+      modeSwitch = body.querySelector(".toggle-switch"),
+      modeText = body.querySelector(".mode-text");
+
+modeSwitch.addEventListener("click" , () =>{
+    body.classList.toggle("dark");
+    
+    if(body.classList.contains("dark")){
+        modeText.innerText = "Light mode";
+    }else{
+        modeText.innerText = "Dark mode";
+    }
+});

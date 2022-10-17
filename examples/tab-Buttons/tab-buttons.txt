@@ -1,0 +1,77 @@
+// HTML
+
+<div class="tab">
+    <button class="tablinks" id="statementfeld" onclick="openTabs(event, 'Statementtyp')">Statementtyp</button>
+    <button class="tablinks" id="zieltabelle" onclick="openTabs(event, 'Zieltabelle')">Tabellen- und Felderauswahl</button>
+    <button class="tablinks" id="bedingungenselect" onclick="openTabs(event, 'bedingungenSelect')">Bedingungen</button>
+    <button class="tablinks" id="insertValues" onclick="openTabs(event, 'insertvalues')">Insert</button>
+    <button class="tablinks" id="fertigesstatement" onclick="openTabs(event, 'fertigesStatement')">Export der Anfrage</button>
+    <button class="tablinks" id="testbutton" onclick="openTabs(event, 'fertigesStatement')">Export der Anfrage</button>
+</div>
+
+
+// JS
+
+function openTabs(evt, tabName) {
+    // Declare all variables
+    var i, tabcontent, tablinks;
+    // Get all elements with class="tabcontent" and hide them
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+      tabcontent[i].style.display = "none";
+      
+    }
+  
+    // Get all elements with class="tablinks" and remove the class "active"
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks = document.getElementsByClassName("tablinks");
+        tablinks[i].className = tablinks[i].className.replace("active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(tabName).style.display = "flex";
+    evt.currentTarget.className += " active";
+}
+
+
+// CSS
+.tab {
+  overflow: hidden;
+  background-color: transparent;
+  align-content: space-around;
+  flex-wrap: nowrap;
+  align-content: space-around;
+}  
+/* Style the buttons that are used to open the tab content */
+.tab button {
+  background-color: var(--button-color);
+  color: var(--button-schrift-color);
+  border-color: var(--primary-color-light);
+  border-radius: 6px;
+  float: left;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  min-width: 120px;
+  font-weight: 450;
+}
+  
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: var(--primary-color);
+  color: var(--sidebar-color);
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: var(--primary-color);
+  border: 2px solid #00745d;
+  color: var(--button-schrift-color)
+}
+
+.tab .tabbutton {
+    display: none;
+}
+
