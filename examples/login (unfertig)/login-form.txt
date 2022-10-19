@@ -1,0 +1,231 @@
+// HTML
+
+<head>
+    <meta name="description" content="SQL Statementbuilder Login">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css;" href="login.css">
+    <title>SQL Statementbuilder Login</title>
+    <link rel="icon" type="image/x-icon" href="../pictures/SB_Logo.JPG">
+    <!----===== Boxicons CSS ===== -->
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    
+</head>
+<body>
+  <div class="kopfbereich">
+    <button class="ohneLogin" id="ohneLogin">ohne Login weiter</button>
+  </div>
+  <form action="?login=1" method="post">
+    <div class="loginbox">
+        <div class="headline">
+          <h1>Login</h1>
+        </div>
+        
+        <div class="inputbereich">
+          <div class="eingabe">
+              <input type="text" required maxlength="20" id="benutzername" name="benutzername">
+              <label>Benutzername</label>
+              <div class="error"></div>
+          </div>
+
+          <div class="eingabe">
+              <input type="password" required maxlength="20" id="passwort" name="passwort">
+              <label>Passwort</label>
+              <div class="error"></div>
+          </div>
+          
+          <label class="pwremember">
+            <label class="forgotpassword"><a href="#" class="forgotpassword">Passwort vergessen?</a></label>
+            <div class="rememberbox">
+              <input type="checkbox" name="remember">
+            <div class="remembertext">Remember me</div>
+            </div>
+          </label>
+          
+          <div>
+            <button type="submit" class="loginbutton" id="login-button">Login</button>
+          </div>
+
+          <div class="signup" onclick="window.location.href = '../Register/Registration.php'">
+              Noch kein Mitglied? <a href="#">Registriere dich jetzt!</a>
+          </div>
+        </div>
+    </div>
+    </form>
+   
+    <pre id="output"></pre>
+</body>
+
+// CSS
+
+.kopfbereich {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+.kopfbereich .ohneLogin {
+    background-color: var(--primary-color);
+    color: var(--button-schrift-color);
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 650;
+    font-size: 13px;
+}
+.kopfbereich .ohneLogin:active {
+    transform: scale(0.9);
+}
+.kopfbereich .ohneLogin:hover {
+    background-color: var(--hover-color);
+}
+
+.loginbox {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: var(--primary-color-light);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 380px;
+    border-radius: 10px;
+    box-shadow: 0px 15px 20px #242526;
+}
+.loginbox .inputbereich {
+    padding: 10px 30px 50px 30px;
+}
+.loginbox .eingabe {
+    /*padding: 10px 30px 50px 30px;*/
+    height: 50px;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+}
+
+.headline {
+    color: var(--überschrift-color);
+    background-color: var(--primary-color);
+    text-align: center;
+    line-height: 100px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+
+.eingabe input {
+    height: 100%;
+    width: 100%;
+    outline: none;
+    border: 1px solid var(--primary-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    padding-left: 20px;
+    background-color: var(--primary-color-light);
+    color: var(--input-color);
+    font-size: 17px;
+}
+.eingabe input:focus,
+.eingabe input:valid{
+    border-color: #4158d0;
+}
+
+.eingabe label{
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    pointer-events: none;
+    transform: translateY(-50%);
+    transition: all 0.3s ease;
+    color: var(--input-color);
+}
+.eingabe input:focus ~ label,
+.eingabe input:valid ~ label{
+    top: 0%;
+    color: #4158d0;
+    background: var(--primary-color-light);
+    transform: translateY(-50%);
+}
+
+.eingabe.success input {
+    border-color: #09c372;
+}
+
+.eingabe.error input {
+    border-color: #ff3860;
+}
+
+.eingabe .error {
+    color: #ff3860;
+    font-size: 9px;
+    height: 13px;
+    text-align: left;
+}
+.eingabe small {
+	color: #e74c3c;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	visibility: hidden;
+}
+
+.eingabe.error small {
+	visibility: visible;
+}
+
+.inputbereich .pwremember {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    align-items: center;
+    justify-content: space-around;
+}
+.inputbereich .rememberbox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3px;
+}
+.inputbereich .rememberbox .remembertext {
+    color: var(--input-color);
+}
+.inputbereich .loginbutton {
+    height: 50px;
+    width: 100%;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--primary-color);
+    margin-top: 10px;
+    color: var(--login-button-schrift-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+}
+.inputbereich .loginbutton:active {
+    transform: scale(0.9);
+}
+.inputbereich .loginbutton:hover {
+    background-color: var(--hover-color);
+}
+
+.loginbereich .forgotpassword {
+    text-align: left;
+    box-sizing:border-box;
+}
+.forgotpassword a {
+    color: var(--signup-color);
+}
+
+.signup {
+    text-align: center;
+    margin-top: 30px;
+    color: var(--input-color);
+}
+.signup a {
+    color: var(--signup-color);
+}
