@@ -1,0 +1,38 @@
+// JS
+
+function add_Element() {
+
+    let fragment = document.createDocumentFragment();
+    let newDiv = document.createElement('div');
+    newBoxDiv.setAttribute('class', 'className');
+    fragment.appendChild(newDiv);
+}
+
+function add_moreElements() {
+
+    // div
+    let fragment = document.createDocumentFragment();
+    let newDiv = document.createElement('div');
+    newBoxDiv.setAttribute('class', 'className');
+    fragment.appendChild(newDiv);
+
+    // Select
+    var newField = document.createElement('select');
+    newField.setAttribute('class', 'className');
+    newField.setAttribute('onchange', 'selectChoice()')
+    newField.size = 10;
+    newField.dataset.selectAdd = number; //data-attribute mitgeben, damit später abfrage funktioniert
+    newDiv.appendChild(newField);
+    fragment.appendChild(newDiv);
+
+    // Text
+    let newDiv = document.createElement('div');
+    newDiv.setAttribute('class', 'className');
+
+    var newInfobox = document.createElement('p');
+    newInfobox.setAttribute('class', 'infofelder');
+
+    let myText = document.createTextNode(infofelderInhalt[i]);
+    newInfobox.appendChild(myText);
+    newDiv.appendChild(newInfobox);
+}
