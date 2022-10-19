@@ -1,7 +1,22 @@
 // HTML
-
+// der Funktion deselect() wird ein Parameter (hier ID) mitgegeben
+<button class="resetbutton" onclick="deselect('bedingungenTabelle')">Eingabe zurücksetzen</button>
 
 // JS
-
+function deselect(id) {
+    document.getElementById(id).selectedIndex = "-1";
+}
 
 // CSS
+.resetbutton {
+    background-color: var(--primary-color);
+    color: var(--button-schrift-color);
+    height: 30px;
+    width: 270px;
+    cursor: pointer;
+    border: 2px solid #00745d;
+    border-radius: 4px;
+    font-family: "Quicksand", sans-serif;
+    font-weight: bold;
+    margin-left: 10px;
+}

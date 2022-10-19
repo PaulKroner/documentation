@@ -1,0 +1,13 @@
+// HTML
+<div id="profile-icon" class="profile-icon"></div>
+
+// CSS
+.profile-icon {
+    height: 40px;
+    width: 40px;
+    background: darkblue;
+    border: 1px solid;
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+}

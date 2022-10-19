@@ -87,3 +87,8 @@
     transform: scale(0.9);
 }
 
+/* responsive bei Bildschirmänderung */
+@media screen {
+    /* bla */
+}
+
