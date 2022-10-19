@@ -1,0 +1,77 @@
+Sub ImportCSVFromFile()
+    Dim wsTemp As Worksheet, wsTarget As Worksheet, curCell As Range, csvPfad As String, fso As Object, f As Object, strCSVDelimiter As String
+    
+    With Application.FileDialog(msoFileDialogFolderPicker)
+        .AllowMultiSelect = True
+        .Title = "Ordnerauswahl"
+        .InitialFileName = "C:\"
+        .ButtonName = "Auswahl..."
+        .InitialView = msoFileDialogViewList
+        If .Show = -1 Then
+            csvPfad = .SelectedItems(1)
+        Else
+            Exit Sub
+        End If
+    End With
+    
+    'Legt das CSV-Trennzeichen für die Dateien fest
+    strCSVDelimiter = ";"
+    
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    Application.DisplayAlerts = False
+    Application.ScreenUpdating = False
+    
+    m = 1
+    Do
+    m = m + 1
+    Loop Until Cells(m, 2) = ""
+    
+    'Zielarbeitsblatt für die importierten Daten
+    Set wsTarget = Worksheets(1)
+    wsTarget.Name = "NMI Sammlung"
+    'temporäres Arbeitsblatt für den Import der Daten erstellen
+    Set wsTemp = Worksheets.Add(After:=Worksheets(Worksheets.Count))
+    
+    'Inhalt des NMI Sammlung löschen
+    'wsTarget.UsedRange.Clear
+   
+    
+    'Startausgabezelle festlegen
+    Set curCell = wsTarget.Cells(m, 2)
+    For Each f In fso.GetFolder(csvPfad).Files
+        If LCase(fso.GetExtensionName(f.Name)) = "csv" Then
+            'Temporäres Sheet clearen
+            wsTemp.UsedRange.Clear
+            'CSV-Daten in Temporäres Sheet importieren
+            With ActiveSheet.QueryTables.Add(Connection:="TEXT;" & f.Path, Destination:=wsTemp.Range("$A$1"))
+                .Name = "import"
+                .FieldNames = True
+                .AdjustColumnWidth = True
+                .RefreshPeriod = 0
+                .TextFilePlatform = xlWindows
+                .TextFileStartRow = 1
+                .TextFileParseType = xlDelimited
+                .TextFileTextQualifier = xlTextQualifierDoubleQuote
+                .TextFileOtherDelimiter = strCSVDelimiter
+                .Refresh BackgroundQuery:=False
+                .Delete
+            End With
+            
+            With wsTemp
+                'Daten in Zielsheet kopieren
+                .UsedRange.Copy curCell
+            End With
+            'Ausgabezeile eins nach unten schieben
+            Set curCell = wsTarget.Cells(wsTarget.UsedRange.Rows.Count + 2, 1)
+        End If
+    Next
+    'Temporäres Sheet löschen
+    wsTemp.Delete
+    'Spalten anpassen
+    wsTarget.Columns.AutoFit
+    
+    Application.DisplayAlerts = True
+    Application.ScreenUpdating = True
+    MsgBox "Vorgang beendet!", vbInformation
+    Set fso = Nothing
+End Sub

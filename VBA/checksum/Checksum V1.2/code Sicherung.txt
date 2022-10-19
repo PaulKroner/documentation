@@ -1,0 +1,56 @@
+Function Logging(ByVal y, Optional ByVal h As Integer = 0, Optional ByVal zeilenKorrekt As Integer = 0, Optional ByVal zeilenzuKurz As Integer = 0, _
+    Optional ByVal zeilenkeineCS As Integer = 0, Optional ByVal zeilenfalscheCS As Integer = 0, Optional ByVal zählerCSBerechnen As Integer = 0, _
+    Optional ByVal ordnerImportLog = 0)
+    'nächste freie Zeile in Spalte "H" (kleiner Trick: in Zelle (1,H) ist ein Leerzeichen, damit diese nicht mitgezählt wird
+    x = Range("H65536").End(xlUp).Row + 1
+    
+    'Wenn CS Prüfen
+    If y = 1 Then
+        'Cells(x, "H") = "Es wurden " & vbCrLf & h - 1 & " Zeilen überprüft" & _
+        vbCrLf & zeilenKorrekt & " waren Korrekt" & _
+        vbCrLf & zeilenzuKurz & " waren zu kurz" & _
+        vbCrLf & zeilenkeineCS & " hatten keine Checksum" & _
+        vbCrLf & zeilenfalscheCS & " hatten falsche Checksum"
+        Cells(x, "H") = "Es wurden " & h - 1 & " Zeilen überprüft"
+        x = x + 1
+        Cells(x, "H") = zeilenKorrekt & " waren Korrekt"
+        x = x + 1
+        Cells(x, "H") = zeilenzuKurz & " waren zu kurz"
+        x = x + 1
+        Cells(x, "H") = zeilenkeineCS & " hatten keine Checksum"
+        x = x + 1
+        Cells(x, "H") = zeilenfalscheCS & " hatten falsche Checksum"
+        x = x + 1
+        Cells(x, "H") = "_________________"
+        Range("H3:H" & x).Interior.ColorIndex = 2
+    
+    'Wenn Import
+    ElseIf y = 2 Then
+        If ordnerImportLog = 1 Then
+            Cells(x, "H") = "Es wurde ein Ordner importiert"
+        Else
+            Cells(x, "H") = "Es wurde eine Datei importiert"
+        End If
+        x = x + 1
+        Cells(x, "H") = "_________________"
+        Range("H3:H" & x).Interior.ColorIndex = 2
+    'Wenn Export
+    ElseIf y = 3 Then
+        Cells(x, "H") = "Es wurde exportiert"
+        x = x + 1
+        Cells(x, "H") = "_________________"
+        Range("H3:H" & x).Interior.ColorIndex = 2
+    'Wenn Berechnen
+    ElseIf y = 4 Then
+        Cells(x, "H") = "Es wurden " & zählerCSBerechnen & " Checksums gebildet"
+        x = x + 1
+        Cells(x, "H") = "_________________"
+        Range("H3:H" & x).Interior.ColorIndex = 2
+    ElseIf y = 5 Then
+        Cells(x, "H") = "Es wurde eine Logging-Datei exportiert"
+        x = x + 1
+        Cells(x, "H") = "_________________"
+        Range("H3:H" & x).Interior.ColorIndex = 2
+    End If
+    Columns("H").AutoFit
+End Function

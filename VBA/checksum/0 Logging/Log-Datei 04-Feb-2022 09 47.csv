@@ -1,0 +1,286 @@
+lösche Kontrollkästchen
+setze Kontrollkästchen
+lösche Ergebnisfelder für Zeilen ohne NMI
+Prüfe, ob mind. 10 Stellen in NMI 1234C6789A3
+1234C6789A3 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 4535345467
+die Checksum der 4535345467 fehlt. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 1234C678903
+1234C678903 ist lang genug, aber die Checksum der 1234C678903 ist falsch. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 344345567
+344345567 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345670
+12345670 ist zu kurz. Setze kein Häkchen
+Es wurden 6 Zeilen überprüft
+2 waren Korrekt
+2 waren zu kurz
+1 hatten keine Checksum
+1 hatten falsche Checksum
+**************************
+die NMI 1234C6789A3 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 1234C6789A3
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 77
+die berechnete Checksum von 1234C6789A3 beträgt 3
+die NMI 34434556735 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 34434556735
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 65
+die berechnete Checksum von 34434556735 beträgt 5
+die NMI 4535345467 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 4535345467
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 0
+Summe der Quersummen der NMI 4535345467 = 62
+die berechnete Checksum von 4535345467 beträgt 8
+die NMI 1234C678903 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 1234C678903
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 0
+Summe der Quersummen der NMI 1234C678903 = 88
+die berechnete Checksum von 1234C678903 beträgt 2
+die NMI 344345567 ist zu kurz
+die NMI 12345670 ist zu kurz
+Es wurden 4 Checksums gebildet
+**************************
+lösche Kontrollkästchen
+setze Kontrollkästchen
+lösche Ergebnisfelder für Zeilen ohne NMI
+Prüfe, ob mind. 10 Stellen in NMI 1234C6789A3
+1234C6789A3 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 45353454678
+45353454678 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 1234C678902
+1234C678902 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 344345567
+344345567 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345670
+12345670 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345612341
+12345612341 ist lang genug, aber die Checksum der 12345612341 ist falsch. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 123456789AC
+123456789AC ist lang genug, aber die Checksum der 123456789AC ist falsch. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 1234567890
+die Checksum der 1234567890 fehlt. Setze kein Häkchen
+Es wurden 10 Zeilen überprüft
+5 waren Korrekt
+2 waren zu kurz
+1 hatten keine Checksum
+2 hatten falsche Checksum
+**************************
+lösche Kontrollkästchen
+setze Kontrollkästchen
+lösche Ergebnisfelder für Zeilen ohne NMI
+Prüfe, ob mind. 10 Stellen in NMI 1234C6789A3
+1234C6789A3 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 45353454678
+45353454678 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 1234C678902
+1234C678902 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 344345567
+344345567 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345670
+12345670 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345612341
+12345612341 ist lang genug, aber die Checksum der 12345612341 ist falsch. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 123456789AC
+123456789AC ist lang genug, aber die Checksum der 123456789AC ist falsch. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345678900
+12345678900 ist lang genug, aber die Checksum der 12345678900 ist falsch. Setze kein Häkchen
+Es wurden 10 Zeilen überprüft
+5 waren Korrekt
+2 waren zu kurz
+0 hatten keine Checksum
+3 hatten falsche Checksum
+**************************
+die NMI 1234C6789A3 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 1234C6789A3
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 0
+Summe der Quersummen der NMI 1234C6789A3 = 77
+die berechnete Checksum von 1234C6789A3 beträgt 3
+die NMI 34434556735 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 34434556735
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 65
+die berechnete Checksum von 34434556735 beträgt 5
+die NMI 45353454678 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 45353454678
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 0
+Summe der Quersummen der NMI 45353454678 = 62
+die berechnete Checksum von 45353454678 beträgt 8
+die NMI 1234C678902 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 1234C678902
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 0
+Summe der Quersummen der NMI 1234C678902 = 88
+die berechnete Checksum von 1234C678902 beträgt 2
+die NMI 344345567 ist zu kurz
+die NMI 12345670 ist zu kurz
+die NMI 12345612341 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 12345612341
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 0
+Summe der Quersummen der NMI 12345612341 = 67
+die berechnete Checksum von 12345612341 beträgt 3
+die NMI 34434556735 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 34434556735
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 0
+Summe der Quersummen der NMI 34434556735 = 65
+die berechnete Checksum von 34434556735 beträgt 5
+die NMI 123456789AC ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 123456789AC
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 0
+Summe der Quersummen der NMI 123456789AC = 72
+die berechnete Checksum von 123456789AC beträgt 8
+die NMI 12345678900 ist lang genug und wird in einzelne Teilstrings zerlegt
+starte ASCII-Wert Berechnung für NMI 12345678900
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 0
+Summe der Quersummen der NMI 12345678900 = 83
+die berechnete Checksum von 12345678900 beträgt 7
+Es wurden 8 Checksums gebildet
+**************************
+lösche Kontrollkästchen
+setze Kontrollkästchen
+lösche Ergebnisfelder für Zeilen ohne NMI
+Prüfe, ob mind. 10 Stellen in NMI 1234C6789A3
+1234C6789A3 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 45353454678
+45353454678 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 1234C678902
+1234C678902 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 344345567
+344345567 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345670
+12345670 ist zu kurz. Setze kein Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345612343
+12345612343 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 34434556735
+34434556735 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 123456789A8
+123456789A8 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Prüfe, ob mind. 10 Stellen in NMI 12345678907
+12345678907 ist lang genug und Checksum ist korrekt. Setze Häkchen
+Es wurden 10 Zeilen überprüft
+8 waren Korrekt
+2 waren zu kurz
+0 hatten keine Checksum
+0 hatten falsche Checksum
+**************************
+Es wurde eine Logging-Datei exportiert
+**************************

@@ -1,0 +1,239 @@
+Private Sub CheckUser1_Click()
+
+End Sub
+
+Private Sub ComboBox1_Change()
+
+End Sub
+
+Private Sub CommandButton1_Click()
+    'schließen des Formular
+    Unload nmiFormular
+End Sub
+
+Private Sub CommandButton2_Click()
+    'Wert aus Zwischenliste (Listbox2) in Listbox schieben
+    'funzt nur für einfache auswahl
+    For i = 0 To ListBox2.ListCount - 1
+        If ListBox2.Selected(i) = True Then
+            ausgewählteStelle = ListBox2.List(i)
+            ListBox1.AddItem ausgewählteStelle
+            ListBox2.RemoveItem (i)
+            End If
+    Next
+End Sub
+
+Private Sub CommandButton3_Click()
+    'Wert aus Listbox in Listbox2 schieben
+    'dabei den Wert aus Listbox löschen
+    'funzt nur für einfache Auswahl
+    For i = 0 To ListBox1.ListCount - 1
+        If ListBox1.Selected(i) = True Then
+            ausgewählteStelle = ListBox1.List(i)
+            ListBox2.AddItem ausgewählteStelle
+            ListBox1.RemoveItem (i)
+            End If
+    Next
+End Sub
+
+Private Sub CommandButton4_Click()
+    textboxInhalt = TextBox1.Text
+    With ListBox2
+        .AddItem textboxInhalt
+    End With
+    TextBox1 = ""
+End Sub
+
+Private Sub CommandButton5_Click()
+    For i = 0 To ListBox2.ListCount - 1
+        If ListBox2.Selected(i) = True Then
+            ausgewählteStelle = ListBox2.List(i)
+            TextBox1.Text = ausgewählteStelle
+            ListBox2.RemoveItem (i)
+        End If
+    Next
+End Sub
+
+Private Sub CommandButton6_Click()
+    'x = die markierten Zeilen in Textbox
+    x = 3
+    For i = 1 To x
+        With nmiFormular.ListBox1
+            i = i + Worksheets("UserFormBlatt").Range("B65536").End(xlUp).Row - 1
+            .AddItem 'AddItem für jede Spalte
+            .List(i, 0) = "Zeile 1, Spalte 1"
+            i = i + 1
+        End With
+    Next
+End Sub
+
+Private Sub CommandButton7_Click() ' Import
+    CheckImport = MsgBox("Soll ein ganzer Ordner (ja) oder nur eine einzelne Datei importiert werden(nein)?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If CheckImport = vbCancel Then
+        Exit Sub
+    ElseIf CheckImport = vbYes Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Ordnerauswahl
+        With Application.FileDialog(msoFileDialogFolderPicker)
+            .AllowMultiSelect = True
+            .Title = "Ordnerauswahl"
+            .InitialFileName = "S:\"
+            .ButtonName = "Auswahl..."
+            .InitialView = msoFileDialogViewList
+            If .Show = -1 Then
+                csvPfad = .SelectedItems(1)
+            Else
+                Exit Sub
+            End If
+        End With
+         
+        Set fso = CreateObject("Scripting.FileSystemObject")
+        Application.DisplayAlerts = False
+        Application.ScreenUpdating = False
+         
+         
+         
+        'Zielarbeitsblatt für die importierten Daten
+        Set wsTarget = Worksheets(1)
+        wsTarget.Name = "NMI Sammlung"
+        'temporäres Arbeitsblatt für den Import der Daten erstellen
+        Set wsTemp = Worksheets.Add '(After:=Worksheets(Worksheets.Count))
+         
+        'Startausgabezelle festlegen
+        'muss hier einmal stehen, weil es innerhalb der Schleife zu Problemen kommen kann
+        'i = Worksheets("NMI Sammlung").Range("B65536").End(xlUp).Row + 1
+        'Set curCell = wsTarget.Cells(i, 2)
+        
+        For Each f In fso.GetFolder(csvPfad).Files
+             If LCase(fso.GetExtensionName(f.Name)) = "csv" Then
+                 'Temporäres Sheet clearen
+                 wsTemp.UsedRange.Clear
+                 'CSV-Daten in Temporäres Sheet importieren
+                With ActiveSheet.QueryTables.Add(Connection:="TEXT;" & f.Path, Destination:=wsTemp.Range("$A$1"))
+                    .Name = "import"
+                    .FieldNames = True
+                    .AdjustColumnWidth = True
+                    .RefreshPeriod = 0
+                    .TextFilePlatform = xlWindows
+                    .TextFileStartRow = 1
+                    .TextFileParseType = xlDelimited
+                    .TextFileTextQualifier = xlTextQualifierDoubleQuote
+                    .TextFileOtherDelimiter = strCSVDelimiter
+                    .Refresh BackgroundQuery:=False
+                    .Delete
+                End With
+                
+                'prüfen, ob 11-stellig *** funzt noch nicht, er kopiert nur das 2. und nicht das 1. und nicht alle 5
+                zähler1 = 1
+                Do
+                    Set importZelle = ActiveSheet.Cells(zähler1, "A")
+                    If Len(importZelle) < 11 Then
+                        ActiveSheet.Cells(zähler1, "A").Delete
+                    Else
+                        zähler1 = zähler1 + 1
+                    End If
+                Loop Until zähler1 = ActiveSheet.Range("A65536").End(xlUp).Row
+                With wsTemp
+                    x = ActiveSheet.Range("A65536").End(xlUp).Row - 1
+                    For i = 1 To x
+                        curCell = ActiveSheet.Cells(i, "A")
+                        ListBox2.AddItem curCell
+                    Next
+                End With
+            End If
+        Next
+            
+        wsTemp.Delete
+        Application.DisplayAlerts = True
+        Application.ScreenUpdating = True
+        MsgBox "Vorgang beendet!", vbInformation
+        Set fso = Nothing
+    
+    ElseIf CheckImport = vbNo Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Dateiauswahl
+        fileToOpen = Application.GetOpenFilename(fileFilterPattern)
+        Application.ScreenUpdating = False
+        If fileToOpen = False Then
+            MsgBox "Keine Datei ausgewählt."
+        Else
+            m = 1
+            Do
+            m = m + 1
+            Loop Until Cells(m, 2) = ""
+            
+            Workbooks.OpenText _
+                Filename:=fileToOpen, _
+                StartRow:=1, _
+                Tab:=True
+            
+            
+            Set wbTextImport = ActiveWorkbook
+            Set wsMaster = ThisWorkbook.Worksheets("NMI Sammlung")
+            
+            'prüfen, ob 11-stellig
+            zähler1 = 1
+            Do
+                Set importZelle = ActiveSheet.Cells(zähler1, "A")
+                If Len(importZelle) < 11 Then
+                    ActiveSheet.Cells(zähler1, "A").Delete
+                Else
+                zähler1 = zähler1 + 1
+                End If
+            Loop Until zähler1 = ActiveSheet.Range("A65536").End(xlUp).Row + 1
+    
+            wbTextImport.Worksheets(1).Range("A1").CurrentRegion.Copy kopierterBerreich 'hier Fehler
+            ListBox2.AddItem kopierterBereich
+            wbTextImport.Close False
+    
+            Do
+                ' Durchlaufen des übergebenen Strings
+                strWert = Cells(m, 2)
+                Const strSonderzeichen As String = ";-.,:#+ß'*?=)(/&%$§!~\}][{"
+                'Jede Zeile durchlaufen und Sonderzeichen mit "" aka nichts ersetzen
+                For i = 1 To Len(strSonderzeichen)
+                    strWert = Replace(strWert, Mid(strSonderzeichen, i, 1), "")
+                    Cells(m, 2) = strWert
+                Next i
+    
+                m = m + 1
+            Loop Until Cells(m, 2) = ""
+        End If
+      
+    Application.ScreenUpdating = True
+    End If
+        
+End Sub
+
+Private Sub CommandButton8_Click() ' Export
+
+End Sub
+
+Private Sub ListBox1_Click()
+
+End Sub
+
+Private Sub TextBox1_Change()
+
+End Sub
+
+Private Sub UserForm_Initialize() 'ist soweit fertig
+    x = Worksheets("UserFormBlatt").Range("B65536").End(xlUp).Row
+    nmiFormular.ListBox1.ColumnCount = 2
+    For i = 2 To x
+        With nmiFormular.ListBox1
+            variable123 = Worksheets("UserFormBlatt").Cells(i, "B")
+            .AddItem variable123
+        End With
+    Next
+End Sub
+
+Sub Reste()
+    'nmiFormular.ListBox1.List = Worksheets("UserFormBlatt").Range("B2:B" & x).Value
+    
+    '.List(0, 0) = "Zeile 1, Spalte 1"
+    '.AddItem
+    '.List(1, 1) = "Zeile 2, Spalte 2"
+    
+    'Sheets("UserFormBlatt").Cells(11, "D") = ListBox1.ListCount + 1
+End Sub

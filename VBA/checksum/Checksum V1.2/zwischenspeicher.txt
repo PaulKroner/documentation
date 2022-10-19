@@ -1,0 +1,53 @@
+Do
+                ' Durchlaufen des übergebenen Strings
+                strWert = Cells(m, 2)
+                Const strSonderzeichen As String = ";-.,:#+ß'*?=)(/&%$§!~\}][{"
+                'Jede Zeile durchlaufen und Sonderzeichen mit "" aka nichts ersetzen
+                For i = 1 To Len(strSonderzeichen)
+                    strWert = Replace(strWert, Mid(strSonderzeichen, i, 1), "")
+                    Cells(m, 2) = strWert
+                Next i
+    
+                m = m + 1
+            Loop Until Cells(m, 2) = ""
+
+
+fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Dateiauswahl
+        fileToOpen = Application.GetOpenFilename(fileFilterPattern)
+        Application.ScreenUpdating = False
+        If fileToOpen = False Then
+            MsgBox "Keine Datei ausgewählt."
+        Else
+            m = 1
+            Do
+            m = m + 1
+            Loop Until Cells(m, 2) = ""
+            
+            Workbooks.OpenText _
+                Filename:=fileToOpen, _
+                StartRow:=1, _
+                Tab:=True
+                
+            
+            Set wbTextImport = ActiveWorkbook
+            Set wsMaster = ThisWorkbook.Worksheets("NMI Sammlung")
+    
+            wbTextImport.Worksheets(1).Range("A1").CurrentRegion.Copy wsMaster.Cells(m, 2)
+            wbTextImport.Close False
+    
+            Do
+                ' Durchlaufen des übergebenen Strings
+                strWert = Cells(m, 2)
+                Const strSonderzeichen As String = ";-.,:#+ß'*?=)(/&%$§!~\}][{"
+                'Jede Zeile durchlaufen und Sonderzeichen mit "" aka nichts ersetzen
+                For i = 1 To Len(strSonderzeichen)
+                    strWert = Replace(strWert, Mid(strSonderzeichen, i, 1), "")
+                    Cells(m, 2) = strWert
+                Next i
+    
+                m = m + 1
+            Loop Until Cells(m, 2) = ""
+        End If
+      
+    Application.ScreenUpdating = True

@@ -1,0 +1,67 @@
+Dim MeinCSVFileName As String
+    Dim myWB As Workbook
+    Dim tempWB As Workbook
+    Dim Speicherreichweite As Range
+    'kp was das ist
+    Application.DisplayAlerts = False
+    On Error GoTo err
+    'Infos der Export-Datei festgelegt
+    Set myWB = ThisWorkbook
+    MeinCSVFileName = myWB.Path & "\" & "CSV-Exported-File-" & VBA.Format(VBA.Now, "02.12.2021") & ".csv"
+
+    Set Speicherreichweite = Range("B2:K25")
+    Speicherreichweite.Copy
+    
+    'ab hier wird in Export-Datei geschrieben
+    Set tempWB = Application.Workbooks.Add(1)
+    With tempWB
+        .Sheets(1).Range("A1:A10").PasteSpecial xlPasteValues
+        .SaveAs Filename:=MeinCSVFileName, FileFormat:=xlCSV, CreateBackup:=False
+        .Close
+    End With
+err:
+    Application.DisplayAlerts = True
+
+
+
+Dim Bereich As Object, Zeile As Object, Zelle As Object
+Dim strTemp As String
+Dim strDateiname As String
+Dim strTrennzeichen As String
+Dim strMappenpfad As String
+Dim blnAnfuehrungszeichen As Boolean
+
+strMappenpfad = ActiveWorkbook.FullName
+
+strDateiname = InputBox("Bitte den Namen der CSV-Datei angeben.", "CSV-Export", strMappenpfad)
+If strDateiname = "" Then Exit Sub
+
+strTrennzeichen = InputBox("Welches Trennzeichen soll verwendet werden?", "CSV-Export", ",")
+If strTrennzeichen = "" Then Exit Sub
+
+If MsgBox("Sollen die Werte in Anführungszeichen exportiert werden?", vbQuestion + vbYesNo, "CSV-Export") = vbYes Then
+    blnAnfuehrungszeichen = True
+Else
+    blnAnfuehrungszeichen = False
+End If
+
+Set Bereich = ActiveSheet.UsedRange
+
+Open strDateiname For Output As #1
+
+For Each Zeile In Bereich.Rows
+    For Each Zelle In Zeile.Cells
+        If blnAnfuehrungszeichen = True Then
+            strTemp = strTemp & """" & CStr(Zelle.Text) & """" & strTrennzeichen
+        Else
+            strTemp = strTemp & CStr(Zelle.Text) & strTrennzeichen
+        End If
+    Next
+    If Right(strTemp, 1) = strTrennzeichen Then strTemp = Left(strTemp, Len(strTemp) - 1)
+    Print #1, strTemp
+    strTemp = ""
+Next
+
+  Close #1
+  Set Bereich = Nothing
+  MsgBox "Export erfolgreich. Datei wurde exportiert nach" & vbCrLf & strDateiname

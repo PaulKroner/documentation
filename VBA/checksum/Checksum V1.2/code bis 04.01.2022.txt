@@ -1,0 +1,415 @@
+Sub Checksumberechnen()
+'Dim curTeil As Integer
+h = 1
+Do
+    'Reset der Werte
+    Checksum = 0
+    Total = 0
+    
+    'Zeile weiter / Zeilenzahl erhöhen
+    h = h + 1
+    
+        'Zahl in Zelle in String umwandeln
+        Set curNMI = Worksheets("NMI Sammlung").Cells(h, 2)
+        curStriing = CStr(curNMI)
+        
+        'String in einzelne Zeichen zerteilen
+        'If könnte man weglassen, aber ich lasse es mal nich drin
+        If Len(curStriing) > 0 Then
+            For j = 1 To 10 ' von Anfang des Strings bis zur Stelle vor der Checksum
+                SummeZeichen = 0
+                curTeil = Mid(curStriing, j, 1) ' Zeichen aus Stelle j in curTeil gespeichert
+                
+                'Ascii-Wert berechnen
+                AsciiWert = Asc(curTeil)
+                
+                'wenn es eine GERADE Stelle ist (Beginn bei Stelle 1), Ascii-Wert * 2
+                If j Mod 2 = 0 Then
+                    AsciiWert = 2 * AsciiWert
+                Else
+                    AsciiWert = AsciiWert
+                End If
+    
+                'Umwandlung ASCII-Wert in String
+                AsciiWert = CStr(AsciiWert)
+                    'Umwandlung der einzelnen Ziffern zu Integer
+                    'Addieren der Ziffern
+                For m = 1 To Len(AsciiWert)
+                    SummeZeichen = SummeZeichen + CInt(Mid(AsciiWert, m, 1))
+                Next
+                'Summe der Ziffern in Total gespeichert
+                Total = Total + SummeZeichen
+            Next
+        End If
+    
+    'Ausgabe Checksum
+    If (Total Mod 10) <> 0 Then
+        Checksum = 10 - (Total Mod 10)
+    Else
+        Checksum = 0
+    End If
+    'Anhängen der Checksum an den String, wenn Checksum falsch oder fehlt
+    If Mid(curStriing, 11, 1) <> Checksum Or Mid(curStriing, 11, 1) = "" Then
+        Cells(h, 2) = Mid(curNMI, 1, 10) & Checksum
+    End If
+    'Test, ob Checksum richtig berechnet
+    'Range("D" & h).Value = Checksum
+Loop Until Cells(h + 1, 2) = ""
+y = 4
+Logging (y)
+End Sub
+
+Sub ChecksumPrüfer()
+Dim h As Integer
+
+h = 1 ' h = Zeilenzahl
+k = 0 ' k = Checkboxnummerierung
+o = 1 ' o = Zeilenzahl für Checkboxen
+    
+    'Checkboxen vorher deleten, damit nicht überlappende Checkboxen entstehen
+    ActiveSheet.CheckBoxes.Delete
+    Selection.FormatConditions.Delete
+    'Loop um fehlende Checkboxen zu setzen
+    Do
+            k = k + 1
+            o = o + 1
+            'Anpassung der Position zur Spalte C
+            PosX = Cells(o, "C").Left + (Columns(3).Width - 29) / 2
+            PosY = Cells(o, "C").Top + (Rows(3).Height - 17.25) / 2
+            ActiveSheet.CheckBoxes.Add(PosX, _
+                                        PosY, _
+                                        30, 17.25).Select
+            With Selection
+                .Caption = ""
+                .Value = xlOff
+                .Name = "Kontrollkästchen " & k
+                .Display3DShading = False
+            End With
+        
+    Loop Until Cells(o + 1, 2) = ""
+    
+    'alle Zeilen in D löschen, wenn keine NMI dafür vorhanden ist
+    n = 1
+    Do
+        n = n + 1
+    Loop Until Cells(n, 4) = ""
+    Range("D" & o & ":D" & n).Clear
+    
+    ' k wurde hochgezählt, wir brauchen aber wieder k, um das richtige Kontrollkästchen auszuwählen
+    k = 0
+    Do
+        h = h + 1
+        k = k + 1
+        
+        'Prüfen, ob 10 Stellen vorhanden
+        If Len(Cells(h, "B")) < 10 Then
+            ActiveSheet.Shapes("Kontrollkästchen " & k).DrawingObject.Value = 0
+            Cells(h, 4) = "NMI zu kurz"
+            Cells(h, 4).HorizontalAlignment = xlCenter
+            Cells(h, 4).VerticalAlignment = xlCenter
+        Else
+        
+            letzteStelleNMI = CStr(Mid(Cells(h, 2), 11, 1))
+            If letzteStelleNMI = "" Then
+                'Checkbox unchecken
+                ' 0 = Haken raus, 1 = Haken rein
+                ' Leerzeichen in "Kontrollkästchen_" muss, weil im Namen des Kontrollkästchens _
+                 ein Leerzeichen ist --> Kontrollkästchen_32 als Beispiel
+                ActiveSheet.Shapes("Kontrollkästchen " & k).DrawingObject.Value = 0
+                Cells(h, 4) = "fehlt"
+                Cells(h, 4).HorizontalAlignment = xlCenter
+                Cells(h, 4).VerticalAlignment = xlCenter
+                
+            Else
+                'Checksum prüfen und sagen ob falsch
+                If letzteStelleNMI = ChecksumRechner(h) Then
+                    ActiveSheet.Shapes("Kontrollkästchen " & k).DrawingObject.Value = 1
+                    Cells(h, 4) = "korrekt"
+                    'Cells(h, 4).HorizontalAlignment = xlCenter
+                    'Cells(h, 4).VerticalAlignment = xlCenter
+                Else
+                    ActiveSheet.Shapes("Kontrollkästchen " & k).DrawingObject.Value = 0
+                    Cells(h, 4) = "falsch"
+                    'Cells(h, 4).HorizontalAlignment = xlCenter
+                    'Cells(h, 4).VerticalAlignment = xlCenter
+                End If
+            End If
+        End If
+
+    Loop Until Cells(h + 1, 2) = ""
+    Range("B:D").HorizontalAlignment = xlCenter
+    Range("B:D").VerticalAlignment = xlCenter
+    y = 1
+    Logging(y, h)
+End Sub
+
+Function ChecksumRechner(h As Integer) As Integer 'Funktion zum einzelnen aufrufen
+
+'Reset der Werte
+Checksum = 0
+Total = 0
+
+    'Zahl in Zelle in String umwandeln
+    Set curNMI = Worksheets("NMI Sammlung").Cells(h, 2)
+    curStriing = CStr(curNMI)
+    
+    'String in einzelne Zeichen zerteilen
+    If Len(curStriing) > 0 Then
+        For j = 1 To 10 ' von Anfang des Strings bis zur Stelle vor der Checksum
+            SummeZeichen = 0
+            curTeil = Mid(curStriing, j, 1) ' Zeichen aus Stelle j in curTeil gespeichert
+            
+            'Ascii-Wert berechnen
+            AsciiWert = Asc(curTeil)
+            
+            'wenn es eine GERADE Stelle ist (Beginn bei Stelle 1), Ascii-Wert * 2
+            If j Mod 2 = 0 Then
+                AsciiWert = 2 * AsciiWert
+            Else
+                AsciiWert = AsciiWert
+            End If
+
+            'Umwandlung ASCII-Wert in String
+            AsciiWert = CStr(AsciiWert)
+            'Umwandlung der einzelnen Ziffern zu Integer
+            'Addieren der Ziffern
+            For m = 1 To Len(AsciiWert)
+                SummeZeichen = SummeZeichen + CInt(Mid(AsciiWert, m, 1))
+            Next
+            'Summe der Ziffern in Total gespeichert
+            Total = Total + SummeZeichen
+        Next
+    End If
+
+'Ausgabe Checksum
+If (Total Mod 10) <> 0 Then
+    Checksum = 10 - (Total Mod 10)
+Else
+    Checksum = 0
+End If
+'der Funktion (Name der Funktion!) muss ein Wert zugewiesen werden, damit ein Rückgabewert entsteht
+ChecksumRechner = Checksum
+End Function
+
+Sub Export()
+    Dim Bereich As Object, Zeile As Object, Zelle As Object
+    Dim strTemp As String
+    
+    'Auswahl, ob man manuell Pfad auswählen möchte oder den aus dem Arbeitsblatt
+    CheckmanuellerPfad = MsgBox("Möchten Sie den Pfad selbst auswählen?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If CheckmanuellerPfad = vbCancel Then
+        Exit Sub
+    ElseIf CheckmanuellerPfad = vbYes Then
+        With Application.FileDialog(msoFileDialogFolderPicker)
+            .AllowMultiSelect = False
+            If .Show = -1 Then Path = .SelectedItems(1)
+        End With
+        Speicherort = Path & "\"
+        MeinDateiname = Speicherort & "CSV-Datei-Neu " & Format(Now(), "DD-MMM-YYYY hh mm") & ".csv"
+    ElseIf CheckmanuellerPfad = vbNo Then
+        Speicherort = Cells(2, "F")
+        MeinDateiname = Speicherort & "CSV-Datei-Neu " & Format(Now(), "DD-MMM-YYYY hh mm") & ".csv"
+    End If
+
+    'Trennzeichen muss noch drin bleiben, weil sonst Code nicht funktioniert
+    strTrennzeichen = ""
+
+    'optionale Abfrage, ob Anführungszeichen für Inhalt - kann weggelassen werden
+    Check = MsgBox("Sollen die Werte in Anführungszeichen exportiert werden?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If Check = vbCancel Then
+        Exit Sub
+    ElseIf Check = vbYes Then
+        blnAnfuehrungszeichen = True
+    ElseIf Check = vbNo Then
+        blnAnfuehrungszeichen = False
+    End If
+    
+    n = 1
+    Do
+    n = n + 1
+    Loop Until Cells(n + 1, 2) = ""
+    'zu exportierenden Bereich festlegen
+    Set Bereich = Range("B2:B" & n)
+    Open MeinDateiname For Output As #1
+    
+    For Each Zeile In Bereich.Rows
+        For Each Zelle In Zeile.Cells
+            If blnAnfuehrungszeichen = True Then
+                strTemp = strTemp & """" & CStr(Zelle.Text) & """" & strTrennzeichen
+            Else
+                strTemp = strTemp & CStr(Zelle.Text) & strTrennzeichen
+            End If
+        Next
+    If Right(strTemp, 1) = strTrennzeichen Then strTemp = Left(strTemp, Len(strTemp) - 1)
+    Print #1, strTemp
+    strTemp = ""
+    Next
+    
+    Close #1
+    Set Bereich = Nothing
+    MsgBox "Export erfolgreich. Datei wurde exportiert nach" & vbCrLf & MeinDateiname
+
+    y = 3
+    Logging (y)
+End Sub
+
+Sub Import()
+    Dim fileToOpen As Variant
+    Dim fileFilterPattern As String
+    Dim wsMaster As Worksheet
+    Dim wbTextImport As Workbook
+    
+    'Auswahl stellen
+    CheckImport = MsgBox("Soll ein ganzer Ordner (ja) oder nur eine einzelne Datei importiert werden(nein)?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If CheckImport = vbCancel Then
+        Exit Sub
+    ElseIf CheckImport = vbYes Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Ordnerauswahl
+        With Application.FileDialog(msoFileDialogFolderPicker)
+             .AllowMultiSelect = True
+             .Title = "Ordnerauswahl"
+             .InitialFileName = "S:\"
+             .ButtonName = "Auswahl..."
+             .InitialView = msoFileDialogViewList
+             If .Show = -1 Then
+                 csvPfad = .SelectedItems(1)
+             Else
+                 Exit Sub
+             End If
+         End With
+         
+         Set fso = CreateObject("Scripting.FileSystemObject")
+         Application.DisplayAlerts = False
+         Application.ScreenUpdating = False
+         
+         i = 1
+         Do
+         i = i + 1
+         Loop Until Cells(i, 2) = ""
+         
+         'Zielarbeitsblatt für die importierten Daten
+         Set wsTarget = Worksheets(1)
+         wsTarget.Name = "NMI Sammlung"
+         'temporäres Arbeitsblatt für den Import der Daten erstellen
+         Set wsTemp = Worksheets.Add(After:=Worksheets(Worksheets.Count))
+         
+         'Startausgabezelle festlegen
+         Set curCell = wsTarget.Cells(i, 2)
+         For Each f In fso.GetFolder(csvPfad).Files
+             If LCase(fso.GetExtensionName(f.Name)) = "csv" Then
+                 'Temporäres Sheet clearen
+                 wsTemp.UsedRange.Clear
+                 'CSV-Daten in Temporäres Sheet importieren
+                With ActiveSheet.QueryTables.Add(Connection:="TEXT;" & f.Path, Destination:=wsTemp.Range("$A$1"))
+                    .Name = "import"
+                    .FieldNames = True
+                    .AdjustColumnWidth = True
+                    .RefreshPeriod = 0
+                    .TextFilePlatform = xlWindows
+                    .TextFileStartRow = 1
+                    .TextFileParseType = xlDelimited
+                    .TextFileTextQualifier = xlTextQualifierDoubleQuote
+                    .TextFileOtherDelimiter = strCSVDelimiter
+                    .Refresh BackgroundQuery:=False
+                    .Delete
+                End With
+                
+                With wsTemp
+                    'Daten in Zielsheet kopieren
+                    .UsedRange.Copy curCell
+                End With
+                 
+            End If
+        Next
+         'Temporäres Sheet löschen
+         wsTemp.Delete
+         'Spalten anpassen
+         wsTarget.Columns.AutoFit
+         
+         Application.DisplayAlerts = True
+         Application.ScreenUpdating = True
+         MsgBox "Vorgang beendet!", vbInformation
+         Set fso = Nothing
+    ElseIf CheckImport = vbNo Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Dateiauswahl
+        fileToOpen = Application.GetOpenFilename(fileFilterPattern)
+        Application.ScreenUpdating = False
+        If fileToOpen = False Then
+            MsgBox "Keine Datei ausgewählt."
+        Else
+            m = 1
+            Do
+            m = m + 1
+            Loop Until Cells(m, 2) = ""
+            
+            Workbooks.OpenText _
+                Filename:=fileToOpen, _
+                StartRow:=1, _
+                Tab:=True
+                
+            
+            Set wbTextImport = ActiveWorkbook
+            Set wsMaster = ThisWorkbook.Worksheets("NMI Sammlung")
+    
+            wbTextImport.Worksheets(1).Range("A1").CurrentRegion.Copy wsMaster.Cells(m, 2)
+            wbTextImport.Close False
+    
+            Do
+                ' Durchlaufen des übergebenen Strings
+                strWert = Cells(m, 2)
+                Const strSonderzeichen As String = ";-.,:#+ß'*?=)(/&%$§!~\}][{"
+                'Jede Zeile durchlaufen und Sonderzeichen mit "" aka nichts ersetzen
+                For i = 1 To Len(strSonderzeichen)
+                    strWert = Replace(strWert, Mid(strSonderzeichen, i, 1), "")
+                    Cells(m, 2) = strWert
+                Next i
+    
+                m = m + 1
+            Loop Until Cells(m, 2) = ""
+        End If
+      
+    Application.ScreenUpdating = True
+    End If
+    
+    y = 2
+    Logging (y)
+End Sub
+
+Sub Tutorial()
+    tutNMI = Cells(3, "C")
+    For i = 1 To 10
+        curStr = Mid(tutNMI, i, 1)
+        Cells(i + 2, "F") = curStr
+    Next
+    summeTabelle = Cells(14, "J")
+    
+    If (summeTabelle Mod 10) <> 0 Then
+        berechneteCS = 10 - (summeTabelle Mod 10)
+    Else
+        berechneteCS = 0
+    End If
+    
+    Cells(4, "C") = berechneteCS
+    Cells(5, "C") = tutNMI + CStr(berechneteCS)
+End Sub
+
+Function Logging(ByVal y%, ByVal h%)
+    'nächste freie Zeile in Spalte "H" (kleiner Trick: in Zelle (1,H) ist ein Leerzeichen, damit diese nicht mitgezählt wird
+    x = Range("H65536").End(xlUp).Row + 1
+    
+    'Wenn CS Prüfen
+    If y = 1 Then
+        Cells(x, "H") = "Es wurden " & vbCrLf & h & " Zeilen überprüft"
+    'Wenn Import
+    ElseIf y = 2 Then
+        Cells(x, "H") = "2"
+    'Wenn Export
+    ElseIf y = 3 Then
+        Cells(x, "H") = "3"
+    'Wenn Berechnen
+    ElseIf y = 4 Then
+        Cells(x, "H") = "4"
+    End If
+End Function

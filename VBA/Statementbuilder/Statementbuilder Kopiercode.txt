@@ -1,0 +1,260 @@
+Sub Import()
+    Dim fileToOpen As Variant
+    Dim fileFilterPattern As String, strCSVDelimiter As String
+    Dim wsMaster As Worksheet
+    Dim wbTextImport As Workbook
+    
+    'Legt das CSV-Trennzeichen für die Dateien fest
+    strCSVDelimiter = ";"
+    
+    'Auswahl stellen
+    CheckImport = MsgBox("Soll ein ganzer Ordner (ja) oder nur eine einzelne Datei importiert werden(nein)?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If CheckImport = vbCancel Then
+        Exit Sub
+    ElseIf CheckImport = vbYes Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Ordnerauswahl
+        With Application.FileDialog(msoFileDialogFolderPicker)
+             .AllowMultiSelect = True
+             .Title = "Ordnerauswahl"
+             .InitialFileName = "S:\"
+             .ButtonName = "Auswahl..."
+             .InitialView = msoFileDialogViewList
+             If .Show = -1 Then
+                 csvPfad = .SelectedItems(1)
+             Else
+                 Exit Sub
+             End If
+         End With
+         
+         Set fso = CreateObject("Scripting.FileSystemObject")
+         Application.DisplayAlerts = False
+         Application.ScreenUpdating = False
+         
+         'Ermittlung der nächsten freien Zeile in Spalte A
+         i = 2
+         Do
+         i = i + 1
+         Loop Until Cells(i, "A") = ""
+         
+         'Zielarbeitsblatt für die importierten Daten
+         Set wsTarget = Worksheets(1)
+         wsTarget.Name = "Tabelle1"
+         'temporäres Arbeitsblatt für den Import der Daten erstellen
+         Set wsTemp = Worksheets.Add(After:=Worksheets(Worksheets.Count))
+         
+         'Startausgabezelle festlegen
+         Set curCell = wsTarget.Cells(i, "A")
+         For Each f In fso.GetFolder(csvPfad).Files
+             If LCase(fso.GetExtensionName(f.Name)) = "csv" Then
+                 'Temporäres Sheet clearen
+                 wsTemp.UsedRange.Clear
+                 'CSV-Daten in Temporäres Sheet importieren
+                With ActiveSheet.QueryTables.Add(Connection:="TEXT;" & f.Path, Destination:=wsTemp.Range("$A$1"))
+                    .Name = "import"
+                    .FieldNames = True
+                    .AdjustColumnWidth = True
+                    .RefreshPeriod = 0
+                    .TextFilePlatform = xlWindows
+                    .TextFileStartRow = 1
+                    .TextFileParseType = xlDelimited
+                    .TextFileTextQualifier = xlTextQualifierDoubleQuote
+                    .TextFileOtherDelimiter = strCSVDelimiter
+                    .Refresh BackgroundQuery:=False
+                    .Delete
+                End With
+                
+                With wsTemp
+                    'Daten in Zielsheet kopieren
+                    .UsedRange.Copy curCell
+                End With
+                 
+            End If
+        Next
+         'Temporäres Sheet löschen
+         wsTemp.Delete
+         'Spalten anpassen
+         wsTarget.Columns.AutoFit
+         
+         Application.DisplayAlerts = True
+         Application.ScreenUpdating = True
+         MsgBox "Vorgang beendet!", vbInformation
+         Set fso = Nothing
+         
+    ElseIf CheckImport = vbNo Then
+        fileFilterPattern = "Text Files (*.txt; *.csv), *.txt; *.csv"
+        'Dateiauswahl
+        fileToOpen = Application.GetOpenFilename(fileFilterPattern)
+        Application.ScreenUpdating = False
+        If fileToOpen = False Then
+            MsgBox "Keine Datei ausgewählt."
+        Else
+            m = 1
+            Do
+            m = m + 1
+            Loop Until Cells(m, 2) = ""
+            
+            Workbooks.OpenText _
+                Filename:=fileToOpen, _
+                StartRow:=1, _
+                Local:=True, _
+                Tab:=True
+                
+            
+            Set wbTextImport = ActiveWorkbook
+            Set wsMaster = ThisWorkbook.Worksheets("Tabelle1")
+    
+            wbTextImport.Worksheets(1).Range("A1").CurrentRegion.Copy wsMaster.Cells(m, 1)
+            wbTextImport.Close False
+    
+        End If
+    ActiveSheet.Range("A:E").HorizontalAlignment = xlCenter
+    Application.ScreenUpdating = True
+    End If
+End Sub
+
+Sub Export()
+Dim Bereich As Object, Zeile As Object, Zelle As Object
+    Dim strTemp As String
+    
+    'Auswahl, ob man manuell Pfad auswählen möchte oder den aus dem Arbeitsblatt
+    CheckmanuellerPfad = MsgBox("Möchten Sie den Pfad selbst auswählen?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If CheckmanuellerPfad = vbCancel Then
+        Exit Sub
+    ElseIf CheckmanuellerPfad = vbYes Then
+        With Application.FileDialog(msoFileDialogFolderPicker)
+            .AllowMultiSelect = False
+            If .Show = -1 Then Path = .SelectedItems(1)
+        End With
+        Speicherort = Path & "\"
+        MeinDateiname = Speicherort & "CSV-Datei-Neu " & Format(Now(), "DD-MMM-YYYY hh mm") & ".csv"
+    ElseIf CheckmanuellerPfad = vbNo Then
+        Speicherort = Cells(2, "AE")
+        MeinDateiname = Speicherort & "CSV-Datei-Neu " & Format(Now(), "DD-MMM-YYYY hh mm") & ".csv"
+    End If
+
+    'Trennzeichen ist ;
+    strTrennzeichen = ";"
+
+    'optionale Abfrage, ob Anführungszeichen für Inhalt - kann weggelassen werden
+    Check = MsgBox("Sollen die Werte in Anführungszeichen exportiert werden?", vbQuestion + vbYesNoCancel, "CSV-Export")
+    If Check = vbCancel Then
+        Exit Sub
+    ElseIf Check = vbYes Then
+        blnAnfuehrungszeichen = True
+    ElseIf Check = vbNo Then
+        blnAnfuehrungszeichen = False
+    End If
+    
+    n = 2
+    Do
+    n = n + 1
+    Loop Until Cells(n + 1, 2) = ""
+    'zu exportierenden Bereich festlegen
+    Set Bereich = Range("A2:E" & n)
+    Open MeinDateiname For Output As #1
+    
+    For Each Zeile In Bereich.Rows
+        For Each Zelle In Zeile.Cells
+            If blnAnfuehrungszeichen = True Then
+                strTemp = strTemp & """" & CStr(Zelle.Text) & """" & strTrennzeichen
+            Else
+                strTemp = strTemp & CStr(Zelle.Text) & strTrennzeichen
+            End If
+        Next
+    If Right(strTemp, 1) = strTrennzeichen Then strTemp = Left(strTemp, Len(strTemp) - 1)
+    Print #1, strTemp
+    strTemp = ""
+    Next
+    
+    Close #1
+    Set Bereich = Nothing
+    MsgBox "Export erfolgreich. Datei wurde exportiert nach" & vbCrLf & MeinDateiname
+
+End Sub
+
+Sub DateninListeeinfügen()
+Dim objLB As Object, x As Long
+    'zählt wie viele Zeilen benutzt
+    'bis dahin werden alle Einträge in Listbox eingetragen
+    'wenn noch nichts drin steht -> befüllen
+    '****** Skip blanks noch einfügen
+    bibTabellenzahl = Sheets("Bibliothek").Cells(1, Columns.Count).End(xlToLeft).Column 'legt Ende für Schleife fest
+    y = 2
+    For x = 1 To bibTabellenzahl - 1
+        Set objLB = Tabelle1.OLEObjects("ListBox" & x).Object
+    
+        If objLB.ListCount = 0 Then
+            bibletzteZeile = Sheets("Bibliothek").Cells(Rows.Count, y).End(xlUp).Row
+            For j = 2 To bibletzteZeile
+                With Worksheets("Bibliothek")
+                    'Set rng_Bereich = .Range(y & j)
+                    rng_Bereich = .Cells(j, y)
+                End With
+                objLB.AddItem rng_Bereich
+            Next
+        End If
+        y = y + 1
+    Next
+End Sub
+
+Sub DatenausListelöschen()
+Dim bibTabellenzahl As Integer
+    'Eintrag löschen an Stelle 3! löschen
+    'Tabelle1.ListBox1.Delete 2
+    bibTabellenzahl = Sheets("Bibliothek").Cells(1, Columns.Count).End(xlToLeft).Column 'legt Ende für Schleife fest
+    For x = 1 To bibTabellenzahl - 1
+        Set objLB = Tabelle1.OLEObjects("ListBox" & x).Object
+        objLB.Clear
+    Next
+End Sub
+
+Sub Listboxausgeben()
+
+Dim lngIndex As Long, lngRow As Long
+Dim strMessage As Variant, strCheck As String
+Dim objLB As Object, x As Long
+    
+    'hier muss dann bibTabellenzahl - 1 gerechnet werden
+    'zählt wie viele Spalten belegt -> so oft muss eine Variable erhöht werden
+    '-> diese steht für die ListBox Nummer
+    ' also Listbox & variable
+    bibTabellenzahl = Sheets("Bibliothek").Cells(1, Columns.Count).End(xlToLeft).Column
+    x = 1
+    
+    For x = 1 To bibTabellenzahl - 1
+    With Worksheets("Tabelle1")
+        Set objLB = .OLEObjects("ListBox" & x).Object
+        For lngIndex = 0 To objLB.ListCount '- 1
+            If objLB.Selected(lngIndex) Then
+                strCheck = objLB.List(lngIndex)
+                For lngRow = 1 To .Cells(.Rows.Count, 1).End(xlUp).Row
+                    If .Cells(lngRow, 1).Value = strCheck Then _
+                        .Cells(lngRow, 2).Value = "A"
+                Next
+                strMessage = strMessage & strCheck & " "
+            End If
+        Next
+    End With
+    Next
+    'die finale Ausgabe
+    Cells(15, "L") = strMessage
+    'damit Zeilenumbrücke nicht entstehen, muss Spalte eine gewisse Breite haben
+    'diese wird dann automatisch an Länge des Inhalts angepasst
+    '200 ist vielleicht genug
+    Columns("L").ColumnWidth = 250
+    Columns("L").EntireColumn.AutoFit
+End Sub
+
+Function NeueListe(ByVal x As Integer)
+    'neue Listenbox hinzufügen
+    
+    
+    'der neuen Listenbox Werte hinzufügen
+    With Worksheets("Tabelle1").ListBox & x 'Tabellenblattnamen anpassen
+        .Clear
+        .AddItem "x"
+        .AddItem "y"
+        .AddItem "z"
+    End With
+End Function
