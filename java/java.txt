@@ -1,0 +1,149 @@
+// Konsolen Ausgabe
+System.out.println("Hello World");
+
+// rechnen
+System.out.println(3 * 4);
+
+// main.java Datei notwendig
+
+/*
+Multiline Commend
+*/
+
+// Variablen
+
+String name = "John";
+System.out.println(name);
+
+int myNum = 15;
+System.out.println(myNum);
+
+int myNum;
+myNum = 15;
+System.out.println(myNum);
+
+int myNum = 5;
+float myFloatNum = 5.99f;
+char myLetter = 'D';
+boolean myBool = true;
+String myText = "Hello";
+
+String name = "John";
+System.out.println("Hello " + name);
+
+String firstName = "John ";
+String lastName = "Doe";
+String fullName = firstName + lastName;
+System.out.println(fullName);
+
+int x = 5;
+int y = 6;
+System.out.println(x + y); // Print the value of x + y
+
+int x = 5, y = 6, z = 50;
+System.out.println(x + y + z);
+
+
+// Variablen Namen Regeln
+Names can contain letters, digits, underscores, and dollar signs
+Names must begin with a letter
+Names should start with a lowercase letter and it cannot contain whitespace
+Names can also begin with $ and _ (but we will not use it in this tutorial)
+Names are case sensitive ("myVar" and "myvar" are different variables)
+Reserved words (like Java keywords, such as int or boolean) cannot be used as names
+
+// Type Casting
+
+int myInt = 9;
+double myDouble = myInt; // Automatic casting: int to double
+
+double myDouble = 9.78d;
+int myInt = (int) myDouble; // Manual casting: double to int
+
+// sich selbst addieren
+int x = 10;
+x += 5;
+
+// logical Operator
+&& 	Logical AND	Returns true if both statements are true	x < 5 &&  x < 10	
+|| 	Logical OR	Returns true if one of the statements is true	x < 5 || x < 4	
+!	Logical NOT	Reverse the result, returns false if the result is true	!(x < 5 && x < 10)
+
+
+// Vergleich Operator
+==	Equal to	x == y	
+!=	Not equal	x != y	
+>	Greater than	x > y	
+<	Less than	x < y	
+>=	Greater than or equal to	x >= y	
+<=	Less than or equal to	x <= y
+
+
+// Assignment Operator
+=	x = 5	x = 5	
++=	x += 3	x = x + 3	
+-=	x -= 3	x = x - 3	
+*=	x *= 3	x = x * 3	
+/=	x /= 3	x = x / 3	
+%=	x %= 3	x = x % 3	
+&=	x &= 3	x = x & 3	
+|=	x |= 3	x = x | 3	
+^=	x ^= 3	x = x ^ 3	
+>>=	x >>= 3	x = x >> 3	
+<<=	x <<= 3	x = x << 3
+
+// some String Methods
+
+String txt = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+System.out.println("The length of the txt string is: " + txt.length());
+
+String txt = "Hello World";
+System.out.println(txt.toUpperCase());   // Outputs "HELLO WORLD"
+System.out.println(txt.toLowerCase());   // Outputs "hello world"
+
+String txt = "Please locate where 'locate' occurs!";
+System.out.println(txt.indexOf("locate")); // Outputs 7
+
+String firstName = "John";
+String lastName = "Doe";
+System.out.println(firstName + " " + lastName);
+
+// Achtung!
+String x = "10";
+int y = 20;
+String z = x + y;  // z will be 1020 (a String)
+
+String txt = "We are the so-called \"Vikings\" from the north."; // Output: We are the so-called "Vikings" from the north.
+
+// Math func
+
+// min / max
+Math.max(5, 10);
+Math.min(5, 10);
+
+// Wurzel
+Math.sqrt(64);
+
+Math.abs(-4.7); // -> wandelt in positiv 4.7
+
+Math.random(); // random zwischen 0 und 1
+
+// boolean
+
+boolean isJavaFun = true;
+
+System.out.println(10 > 9); // returns true, because 10 is higher than 9
+
+// if-else
+
+if (condition1) {
+  // block of code to be executed if condition1 is true
+} else if (condition2) {
+  // block of code to be executed if the condition1 is false and condition2 is true
+} else {
+  // block of code to be executed if the condition1 is false and condition2 is false
+}
+
+// if-else kurz
+
+variable = (condition) ? expressionTrue :  expressionFalse;
