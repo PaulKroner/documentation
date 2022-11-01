@@ -719,7 +719,7 @@ public class Main {
 }
 // Outputs 15 (5 + 10)
 
-// access oute class from inner class
+// access outer class from inner class
 class OuterClass {
   int x = 10;
 
@@ -741,3 +741,221 @@ public class Main {
 // Outputs 10
 
 
+// abstraction -> process of hiding certain details and showing only essential information to the user
+
+Abstract class: is a restricted class that cannot be used to create objects
+(to access it, it must be inherited from another class)
+
+Abstract method: can only be used in an abstract class, and it does not have a body.
+The body is provided by the subclass (inherited from)
+
+// Abstract class
+abstract class Animal {
+  // Abstract method (does not have a body)
+  public abstract void animalSound();
+  // Regular method
+  public void sleep() {
+    System.out.println("Zzz");
+  }
+}
+
+// Subclass (inherit from Animal)
+class Pig extends Animal {
+  public void animalSound() {
+    // The body of animalSound() is provided here
+    System.out.println("The pig says: wee wee");
+  }
+}
+
+class Main {
+  public static void main(String[] args) {
+    Pig myPig = new Pig(); // Create a Pig object
+    myPig.animalSound();
+    myPig.sleep();
+  }
+}
+
+// Interfaces -> a completely "abstract class" that is used to group related methods with empty bodies
+
+// interface
+interface Animal {
+  public void animalSound(); // interface method (does not have a body)
+  public void run(); // interface method (does not have a body)
+}
+
+// Pig "implements" the Animal interface
+class Pig implements Animal {
+  public void animalSound() {
+    // The body of animalSound() is provided here
+    System.out.println("The pig says: wee wee");
+  }
+  public void sleep() {
+    // The body of sleep() is provided here
+    System.out.println("Zzz");
+  }
+}
+
+// multiple Interfaces
+
+class DemoClass implements FirstInterface, SecondInterface {
+  public void myMethod() {
+    System.out.println("Some text..");
+  }
+  public void myOtherMethod() {
+    System.out.println("Some other text...");
+  }
+}
+
+
+// enums -> special "class" that represents a group of constants (unchangeable variables, like final variables)
+
+// create
+enum Level {
+  LOW,
+  MEDIUM,
+  HIGH
+}
+
+// access
+Level myVar = Level.MEDIUM;
+
+// enum in switch
+
+enum Level {
+  LOW,
+  MEDIUM,
+  HIGH
+}
+
+public class Main {
+  public static void main(String[] args) {
+    Level myVar = Level.MEDIUM;
+
+    switch(myVar) {
+      case LOW:
+        System.out.println("Low level");
+        break;
+      case MEDIUM:
+         System.out.println("Medium level");
+        break;
+      case HIGH:
+        System.out.println("High level");
+        break;
+    }
+  }
+}
+
+// loop through
+
+for (Level myVar : Level.values()) {
+  System.out.println(myVar);
+}
+
+// User input
+
+import java.util.Scanner;
+
+class Main {
+  public static void main(String[] args) {
+    Scanner myObj = new Scanner(System.in);
+
+    System.out.println("Enter name, age and salary:");
+
+    // String input
+    String name = myObj.nextLine();
+
+    // Numerical input
+    int age = myObj.nextInt();
+    double salary = myObj.nextDouble();
+
+    // Output input by user
+    System.out.println("Name: " + name);
+    System.out.println("Age: " + age);
+    System.out.println("Salary: " + salary);
+  }
+}
+
+// time and Date
+
+import java.time.LocalDate; // import the LocalDate class
+
+public class Main {
+  public static void main(String[] args) {
+    LocalDate myObj = LocalDate.now(); // Create a date object
+    System.out.println(myObj); // Display the current date
+  }
+}
+// output 2022-11-01
+
+import java.time.LocalTime; // import the LocalTime class
+
+public class Main {
+  public static void main(String[] args) {
+    LocalTime myObj = LocalTime.now();
+    System.out.println(myObj);
+  }
+}
+// output 11:09:38.319683
+
+
+// both
+
+import java.time.LocalDateTime; // import the LocalDateTime class
+
+public class Main {
+  public static void main(String[] args) {
+    LocalDateTime myObj = LocalDateTime.now();
+    System.out.println(myObj);
+  }
+}
+// output 2022-11-01T11:09:38.319253
+
+// formatiert
+
+import java.time.LocalDateTime; // Import the LocalDateTime class
+import java.time.format.DateTimeFormatter; // Import the DateTimeFormatter class
+
+public class Main {
+  public static void main(String[] args) {
+    LocalDateTime myDateObj = LocalDateTime.now();
+    System.out.println("Before formatting: " + myDateObj);
+    DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+    String formattedDate = myDateObj.format(myFormatObj);
+    System.out.println("After formatting: " + formattedDate);
+  }
+}
+// output
+Before Formatting: 2022-11-01T11:09:38.319319
+After Formatting: 01-11-2022 11:09:38
+
+
+// ArrayList -> class is a resizable array, which can be found in the java.util package
+    + elements can be added and removed from an ArrayList
+
+import java.util.ArrayList; // import the ArrayList class
+
+ArrayList<String> cars = new ArrayList<String>(); // Create an ArrayList object
+
+// add
+cars.add("Volvo");
+
+// access
+cars.get(0);
+
+// Change
+cars.set(0, "Opel");
+
+// remove
+cars.remove(0);
+
+// remove all
+cars.clear();
+
+// how many elements
+cars.size();
+
+// loop through ArrayList
+for (int i = 0; i < cars.size(); i++) {
+    System.out.println(cars.get(i));
+}
