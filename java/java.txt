@@ -959,3 +959,45 @@ cars.size();
 for (int i = 0; i < cars.size(); i++) {
     System.out.println(cars.get(i));
 }
+
+// for each
+for (String i : cars) {
+    System.out.println(i);
+}
+
+// sort
+Collections.sort(cars);
+for (String i : cars) {
+    System.out.println(i);
+}
+
+
+// LinkedList -> ArrayList for storing and accessing data, and LinkedList to manipulate data
+LinkedList<String> cars = new LinkedList<String>();
+
+
+// Hash-map -> store items in "key/value" pairs, and you can access them by an index of another type
+
+import java.util.HashMap; // import the HashMap class
+
+HashMap<String, String> capitalCities = new HashMap<String, String>();
+
+// Add keys and values (Country, City)
+capitalCities.put("England", "London");
+
+// access
+capitalCities.get("England");
+
+// remove
+capitalCities.remove("England");
+
+// remove all
+capitalCities.clear();
+
+// size
+capitalCities.size();
+
+// loop through
+for (String i : capitalCities.keySet()) {
+    System.out.println(i);
+}
