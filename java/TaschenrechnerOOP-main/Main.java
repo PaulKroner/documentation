@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Taschenrechner {
+public class Main {
     public static void main(String[] args) {
         Scanner benutzereingabe = new Scanner(System.in);
         double zahleins;
