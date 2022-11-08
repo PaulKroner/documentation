@@ -1,0 +1,28 @@
+// include
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
+
+<div ng-app=""> // defines an AngularJS application
+  <p>Name: <input type="text" ng-model="name"></p> // binds the value of HTML controls (input, select, textarea) to application data
+  <p ng-bind="name"></p> // binds application data to the HTML view
+</div>
+
+</body>
+</html>
+
+// variable
+
+ng-init="firstName='John'"
+
+
+// Expressions
+
+{{ expression }} or ng-bind="expression"
+
+<p>My first expression: {{ 5 + 5 }}</p>
+
+// output 10
