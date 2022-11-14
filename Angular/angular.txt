@@ -126,3 +126,132 @@ app.directive("w3TestDirective", function() {
 
 <script src="myApp.js"></script>
 <script src="myCtrl.js"></script>
+
+
+// directives
+
+
+ng-app directive initializes an AngularJS application
+ng-app directive defines the root element of an AngularJS application
+ng-init directive initializes application data
+ng-model directive binds the value of HTML controls (input, select, textarea) to application data
+
+// data-binding
+
+{{ firstName }} is bound with ng-model="firstName"
+
+// ng-repeat -> loop through names and puts in list
+
+<div ng-app="" ng-init="names=['Jani','Hege','Kai']">
+  <ul>
+    <li ng-repeat="x in names">
+      {{ x }}
+    </li>
+  </ul>
+</div>
+
+// create own directive
+
+app.directive("w3TestDirective", function() {
+  return {
+    template : "<h1>Made by a directive!</h1>"
+  };
+});
+
+
+// ng-model -> directive you can bind the value of an input field to a variable created
+
+<div ng-app="myApp" ng-controller="myCtrl">
+  Name: <input ng-model="name">
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  $scope.name = "John Doe";
+});
+</script>
+
+// two-way-binding
+
+<div ng-app="myApp" ng-controller="myCtrl">
+  Name: <input ng-model="name">
+  <h1>You entered: {{name}}</h1>
+</div>
+
+// type validation
+
+<form ng-app="" name="myForm">
+  Email:
+  <input type="email" name="myAddress" ng-model="text">
+  <span ng-show="myForm.myAddress.$error.email">Not a valid e-mail address</span>
+</form>
+
+// application status
+
+<form ng-app="" name="myForm" ng-init="myText = 'post@myweb.com'">
+  Email:
+  <input type="email" name="myAddress" ng-model="myText" required>
+  <h1>Status</h1>
+  {{myForm.myAddress.$valid}}
+  {{myForm.myAddress.$dirty}}
+  {{myForm.myAddress.$touched}}
+</form>
+
+// css classes
+
+<form ng-app="" name="myForm" ng-init="myText = 'post@myweb.com'">
+  Email:
+  <input type="email" name="myAddress" ng-model="myText" required>
+  <h1>Status</h1>
+  {{myForm.myAddress.$valid}}
+  {{myForm.myAddress.$dirty}}
+  {{myForm.myAddress.$touched}}
+</form>
+
+other form statuses
+
+ng-empty
+ng-not-empty
+ng-touched
+ng-untouched
+ng-valid
+ng-invalid
+ng-dirty
+ng-pending
+ng-pristine
+
+
+// controller -> a JavaScript Object, created by a standard JavaScript object constructor
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+First Name: <input type="text" ng-model="firstName"><br>
+Last Name: <input type="text" ng-model="lastName"><br>
+<br>
+Full Name: {{firstName + " " + lastName}}
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  $scope.firstName = "John";
+  $scope.lastName = "Doe";.
+  // contains method
+  $scope.fullName = function() {
+    return $scope.firstName + " " + $scope.lastName;
+  };
+});
+</script>
+
+// controller in external file
+<script src="personController.js"></script>
+
+
+// scopes -> object with the available properties and methods
+
+app.controller('myCtrl', function($scope) {
+  $scope.carname = "Volvo";
+});
+
