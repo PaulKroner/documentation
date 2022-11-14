@@ -255,3 +255,141 @@ app.controller('myCtrl', function($scope) {
   $scope.carname = "Volvo";
 });
 
+
+// filters ->to transform data
+
+// examples
+currency Format a number to a currency format.
+date Format a date to a specified format.
+filter Select a subset of items from an array.
+json Format an object to a JSON string.
+limitTo Limits an array/string, into a specified number of elements/characters.
+lowercase Format a string to lower case.
+number Format a number to a string.
+orderBy Orders an array by an expression.
+uppercase Format a string to upper case.
+
+// filters to Expressions
+<p>The name is {{ lastName | uppercase }}</p>
+
+// filters to directives
+
+<div ng-app="myApp" ng-controller="namesCtrl">
+
+<ul>
+  <li ng-repeat="x in names | orderBy:'country'">
+    {{ x.name + ', ' + x.country }}
+  </li>
+</ul>
+
+</div>
+
+// filter filters
+
+<li ng-repeat="x in names | filter : 'i'">
+
+// custom filters
+
+<ul ng-app="myApp" ng-controller="namesCtrl">
+  <li ng-repeat="x in names">
+    {{x | myFormat}}
+  </li>
+</ul>
+
+<script>
+var app = angular.module('myApp', []);
+app.filter('myFormat', function() {
+  return function(x) {
+    var i, c, txt = "";
+    for (i = 0; i < x.length; i++) {
+      c = x[i];
+      if (i % 2 == 0) {
+        c = c.toUpperCase();
+      }
+      txt += c;
+    }
+    return txt;
+  };
+});
+app.controller('namesCtrl', function($scope) {
+  $scope.names = ['Jani', 'Carl', 'Margareth', 'Hege', 'Joe', 'Gustav', 'Birgit', 'Mary', 'Kai'];
+});
+</script>
+
+
+// services -> built-in function or object
+
+// $location of current web page
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $location) {
+    $scope.myUrl = $location.absUrl();
+});
+
+// create own services
+
+app.service('name', function() {
+  this.myFunc = function (x) {
+    return x.toString(16);
+  }
+});
+
+// add it as a dependency when defining the controller
+app.controller('myCtrl', function($scope, name) {
+  $scope.hex = name.myFunc(255);
+});
+
+
+// angular $http -> service makes a request to the server, and returns a response
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<p>Today's welcome message is:</p>
+<h1>{{myWelcome}}</h1>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http.get("welcome.htm")
+  .then(function(response) {
+    $scope.myWelcome = response.data;
+  });
+});
+</script>
+
+// execute with an object, failure and success
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+  $http({
+    method : "GET",
+      url : "welcome.htm"
+  }).then(function mySuccess(response) {
+    $scope.myWelcome = response.data;
+  }, function myError(response) {
+    $scope.myWelcome = response.statusText;
+  });
+});
+
+
+// angular tables
+
+<div ng-app="myApp" ng-controller="customersCtrl">
+
+<table>
+  <tr ng-repeat="x in names | orderBy : 'Country'">
+    <td>{{ x.Name }}</td>
+    <td>{{ x.Country }}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('customersCtrl', function($scope, $http) {
+  $http.get("customers.php")
+  .then(function (response) {$scope.names = response.data.records;});
+});
+</script>
+
