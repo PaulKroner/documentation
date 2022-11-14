@@ -26,3 +26,103 @@ ng-init="firstName='John'"
 <p>My first expression: {{ 5 + 5 }}</p>
 
 // output 10
+
+// change color
+
+<div ng-app="" ng-init="myCol='lightblue'">
+
+    <input style="background-color:{{myCol}}" ng-model="myCol">
+
+</div>
+
+
+// numbers
+
+<div ng-app="" ng-init="quantity=1;cost=5">
+
+    <p>Total in dollar: {{ quantity * cost }}</p>
+
+</div>
+
+or
+
+<div ng-app="" ng-init="quantity=1;cost=5">
+
+    <p>Total in dollar: <span ng-bind="quantity * cost"></span></p>
+
+</div>
+
+
+// strings
+
+<div ng-app="" ng-init="firstName='John';lastName='Doe'">
+
+    <p>The name is {{ firstName + " " + lastName }}</p>
+
+</div>
+
+
+// objects
+
+<div ng-app="" ng-init="person={firstName:'John',lastName:'Doe'}">
+
+    <p>The name is {{ person.lastName }}</p>
+
+</div>
+
+
+// arrays
+
+<div ng-app="" ng-init="points=[1,15,19,2,40]">
+
+    <p>The third result is {{ points[2] }}</p>
+
+</div>
+
+
+// modules -> module defines an application, add in head or top of body
+
+//create
+<div ng-app="myApp">...</div>
+
+<script>
+
+var app = angular.module("myApp", []);
+
+</script>
+
+// add controller
+
+<div ng-app="myApp" ng-controller="myCtrl">
+    {{ firstName + " " + lastName }}
+</div>
+
+<script>
+
+var app = angular.module("myApp", []);
+
+app.controller("myCtrl", function($scope) {
+  $scope.firstName = "John";
+  $scope.lastName = "Doe";
+});
+
+</script>
+
+// add directive
+
+<div ng-app="myApp" w3-test-directive></div>
+
+<script>
+var app = angular.module("myApp", []);
+
+app.directive("w3TestDirective", function() {
+  return {
+    template : "I was made in a directive constructor!"
+  };
+});
+</script>
+
+// modules in a file
+
+<script src="myApp.js"></script>
+<script src="myCtrl.js"></script>
