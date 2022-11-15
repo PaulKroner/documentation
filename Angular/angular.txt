@@ -393,3 +393,272 @@ app.controller('customersCtrl', function($scope, $http) {
 });
 </script>
 
+
+// angular select
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<select ng-model="selectedName" ng-options="x for x in names">
+</select>
+
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  $scope.names = ["Emil", "Tobias", "Linus"];
+});
+</script>
+
+or
+
+<select>
+  <option ng-repeat="x in names">{{x}}</option>
+</select>
+
+// select with objects
+
+<select ng-model="selectedCar" ng-options="x for (x, y) in cars">
+</select>
+
+<select ng-model="selectedCar" ng-options="x for (x, y) in cars">
+</select>
+
+
+// DOM
+
+// disabled
+<button ng-disabled="mySwitch">Click Me!</button>
+
+// show or hide
+<p ng-show="false">I am not visible.</p>
+
+or 
+
+<div ng-app="" ng-init="hour=13">
+    <p ng-show="hour > 12">I am visible.</p>
+</div>
+
+
+// angular events
+
+ng-blur
+ng-change
+ng-click
+ng-copy
+ng-cut
+ng-dblclick
+ng-focus
+ng-keydown
+ng-keypress
+ng-keyup
+ng-mousedown
+ng-mouseenter
+ng-mouseleave
+ng-mousemove
+ng-mouseover
+ng-mouseup
+ng-paste
+
+// click
+<button ng-click="count = count + 1">Click me!</button>
+
+<button ng-click="myFunction()">Click Me!</button>
+
+// toggle
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<button ng-click="myFunc()">Click Me!</button>
+
+<div ng-show="showMe">
+  <h1>Menu:</h1>
+  <div>Pizza</div>
+  <div>Pasta</div>
+  <div>Pesce</div>
+</div>
+
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  $scope.showMe = false;
+  $scope.myFunc = function() {
+    $scope.showMe = !$scope.showMe;
+  }
+});
+</script>
+
+// $event
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+<h1 ng-mousemove="myFunc($event)">Mouse Over Me!</h1>
+
+<p>Coordinates: {{x + ', ' + y}}</p>
+
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope) {
+  $scope.myFunc = function(myE) {
+    $scope.x = myE.clientX;
+    $scope.y = myE.clientY;
+  }
+});
+</script>
+
+
+// angular Forms
+
+// data-binding
+
+<div ng-app="myApp" ng-controller="formCtrl">
+  <form>
+    First Name: <input type="text" ng-model="firstname">
+  </form>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('formCtrl', function($scope) {
+    $scope.firstname = "John";
+});
+</script>
+
+// checkbox
+
+<div ng-app="">
+  <form>
+    Check to show a header:
+    <input type="checkbox" ng-model="myVar">
+  </form>
+  <h1 ng-show="myVar">My Header</h1>
+</div>
+
+// radio
+
+<form>
+  Pick a topic:
+  <input type="radio" ng-model="myVar" value="dogs">Dogs
+  <input type="radio" ng-model="myVar" value="tuts">Tutorials
+  <input type="radio" ng-model="myVar" value="cars">Cars
+</form>
+
+// select
+
+<form>
+  Select a topic:
+  <select ng-model="myVar">
+    <option value="">
+    <option value="dogs">Dogs
+    <option value="tuts">Tutorials
+    <option value="cars">Cars
+  </select>
+</form>
+
+<div ng-switch="myVar">
+  <div ng-switch-when="dogs">
+     <h1>Dogs</h1>
+     <p>Welcome to a world of dogs.</p>
+  </div>
+  <div ng-switch-when="tuts">
+     <h1>Tutorials</h1>
+     <p>Learn from examples.</p>
+  </div>
+  <div ng-switch-when="cars">
+     <h1>Cars</h1>
+     <p>Read about cars.</p>
+  </div>
+</div>
+
+
+// angualr form validation -> client side
+
+// required
+<form name="myForm">
+  <input name="myInput" ng-model="myInput" required>
+</form>
+
+<p>The input's valid state is:</p>
+<h1>{{myForm.myInput.$valid}}</h1>
+
+// e-mail
+<form name="myForm">
+  <input name="myInput" ng-model="myInput" type="email">
+</form>
+
+// input states
+$untouched The field has not been touched yet
+$touched The field has been touched
+$pristine The field has not been modified yet
+$dirty The field has been modified
+$invalid The field content is not valid
+$valid The field content is valid
+
+// form states
+$pristine No fields have been modified yet
+$dirty One or more have been modified
+$invalid The form content is not valid
+$valid The form content is valid
+$submitted The form is submitted
+
+
+// angular includes
+
+<div ng-include="'myFile.htm'"></div>
+
+<div ng-include="'https://tryit.w3schools.com/angular_include.php'"></div>
+
+
+// Animation -> transformation of an HTML element gives you an illusion of motion
+
+// need to include
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.js"></script>
+
+
+<body ng-app="myApp">
+
+<h1>Hide the DIV: <input type="checkbox" ng-model="myCheck"></h1>
+
+<div ng-hide="myCheck"></div>
+
+<script>
+var app = angular.module('myApp', ['ngAnimate']);
+</script>
+
+
+// routing -> ngRoute module routes your application to different pages without reloading the entire application
+
+// need to include
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+
+<body ng-app="myApp">
+
+<p><a href="#/!">Main</a></p>
+
+<a href="#!red">Red</a>
+<a href="#!green">Green</a>
+<a href="#!blue">Blue</a>
+
+<div ng-view></div>
+
+<script>
+var app = angular.module("myApp", ["ngRoute"]); // important
+app.config(function($routeProvider) {
+  $routeProvider
+  .when("/", {
+    templateUrl : "main.htm"
+  })
+  .when("/red", {
+    templateUrl : "red.htm"
+  })
+  .when("/green", {
+    templateUrl : "green.htm"
+  })
+  .when("/blue", {
+    templateUrl : "blue.htm"
+  });
+});
+</script>
+</body>
